@@ -1,0 +1,61 @@
+--- tool/build.xml.orig	1970-01-01 01:00:00.000000000 +0100
++++ tool/build.xml	2015-07-07 14:24:35.010405911 +0100
+@@ -0,0 +1,11 @@
++<project default="antlr">
++	<target name="antlr">
++		<mkdir dir="./target/generated-sources/antlr/org/antlr/grammar/v2"/>
++		<antlr target="src/main/antlr2/org/antlr/grammar/v2/antlr.g" outputdirectory="./target/generated-sources/antlr/org/antlr/grammar/v2" />
++		<antlr target="src/main/antlr2/org/antlr/grammar/v2/codegen.g" outputdirectory="./target/generated-sources/antlr/org/antlr/grammar/v2" />
++		<antlr target="src/main/antlr2/org/antlr/grammar/v2/antlr.print.g" outputdirectory="./target/generated-sources/antlr/org/antlr/grammar/v2" />
++		<antlr target="src/main/antlr2/org/antlr/grammar/v2/assign.types.g" outputdirectory="./target/generated-sources/antlr/org/antlr/grammar/v2" />
++		<antlr target="src/main/antlr2/org/antlr/grammar/v2/buildnfa.g" outputdirectory="./target/generated-sources/antlr/org/antlr/grammar/v2" />
++		<antlr target="src/main/antlr2/org/antlr/grammar/v2/define.g" outputdirectory="./target/generated-sources/antlr/org/antlr/grammar/v2" />
++	</target>
++</project>
+--- tool/pom.xml.orig	2009-09-23 19:50:28.000000000 +0100
++++ tool/pom.xml	2015-07-07 14:49:09.811396333 +0100
+@@ -76,19 +76,40 @@
+             
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+-                <artifactId>antlr-maven-plugin</artifactId>
++                <artifactId>exec-maven-plugin</artifactId>
++                <version>1.4.0</version>
+                 <configuration>
+-                    <sourceDirectory>src/main/antlr2/org/antlr/grammar/v2</sourceDirectory>
+-                    <grammars>antlr.g codegen.g, antlr.print.g, assign.types.g, buildnfa.g, define.g</grammars>
++                    <executable>ant</executable>
+                 </configuration>
+                 <executions>
+                     <execution>
++                        <phase>generate-sources</phase>
+                         <goals>
+-                            <goal>generate</goal>
++                            <goal>exec</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
++
++            <plugin>
++                <groupId>org.codehaus.mojo</groupId>
++                <artifactId>build-helper-maven-plugin</artifactId>
++                <version>1.7</version>
++                <executions>
++                    <execution>
++                        <id>add-source</id>
++                        <phase>generate-sources</phase>
++                        <goals>
++                            <goal>add-source</goal>
++                        </goals>
++                        <configuration>
++                            <sources>
++                                <source>${project.build.directory}/generated-sources/antlr</source>
++                            </sources>
++                        </configuration>
++                    </execution>
++                </executions>
++            </plugin>
+ 
+             <plugin>
+                 <artifactId>maven-compiler-plugin</artifactId>
