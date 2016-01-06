@@ -1,0 +1,11 @@
+--- tool/src/main/java/org/antlr/tool/CompositeGrammar.java.orig	2014-05-30 00:12:33.360503545 +0100
++++ tool/src/main/java/org/antlr/tool/CompositeGrammar.java	2014-05-30 00:13:38.533423946 +0100
+@@ -219,7 +219,7 @@
+ 	public List<Grammar> getIndirectDelegates(Grammar g) {
+ 		List<Grammar> direct = getDirectDelegates(g);
+ 		List<Grammar> delegates = getDelegates(g);
+-		delegates.removeAll(direct);
++		if ( direct!=null ) delegates.removeAll(direct);
+ 		return delegates;
+ 	}
+ 
