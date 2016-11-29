@@ -2,9 +2,9 @@
 %{!?scl:%global pkg_name %{name}}
 %{?java_common_find_provides_and_requires}
 
-%global baserelease 2
+%global baserelease 3
 
-%global bootstrap 1
+%global bootstrap 0
 %global bootstrap_version 3.1.3
 
 Name:           %{?scl_prefix}antlr32
@@ -168,6 +168,9 @@ set -e -x
 %doc tool/LICENSE.txt
 
 %changelog
+* Sat Jul 23 2016 Mat Booth <mat.booth@redhat.com> - 3.2-14.3
+- Perform full non-bootstrap build
+
 * Fri Jul 22 2016 Mat Booth <mat.booth@redhat.com> - 3.2-14.2
 - Perform bootstrap build
 - Add a patch to use exec maven plugin as an alternative to the unavailable
